@@ -16,7 +16,7 @@ public class MessageListener extends ListenerAdapter {
 
         MessageChannel channel = event.getChannel();
 
-        if(content.startsWith("~ping")){
+        if(content.equals("~ping")){
 
             //apparently important to call queue on the RestAction returned by sendMessage(...)
             channel.sendMessage("Pong!").queue();
@@ -33,9 +33,9 @@ public class MessageListener extends ListenerAdapter {
                 channel.sendMessage("You have no power here!").queue();
             }
         }
-        else if(content.startsWith("~")){
-            channel.sendMessage("command not recognized!").queue();
-
+        else if(content.equals("~help")){
+            channel.sendMessage("Sorry... No help yet\nHere is the Tilda Docs: https://goo.gl/dtjFUk"+
+                "\nSource Code: https://github.com/AndyThio/TildaBot").queue();
         }
     }
 }
