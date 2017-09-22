@@ -52,7 +52,7 @@ public class Tilda extends ListenerAdapter{
     private static void findToken() throws Exception{
         //getting the token
         File token_file = new File(token_path);
-        token = System.getenv().get("BOT_TOKEN");
+        token = System.getenv("BOT_TOKEN");
 
         if(token == null) {
             if (token_file.isFile()) {
