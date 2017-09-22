@@ -13,22 +13,15 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.logging.Level;
 
 public class musicCommand extends ListenerAdapter{
-    //TODO: Add ~follow and ~unfollow
     /* List of Commands
     *   ~join <Voice Channel>   Joins the channel mentioned
     *   ~leave                  Leaves the voice channel
@@ -43,8 +36,6 @@ public class musicCommand extends ListenerAdapter{
     *   ~nowplaying | ~np       States currently playing song
     *   ~list                   List the next 10 songs in queue
     *   ~shuffle                Shuffles up the queue
-
-    * To be Added:
     *   ~follow                 Follows the bot around when it changes voice channels
     *   ~unfollow               Unfollows the bot
     */
@@ -53,6 +44,7 @@ public class musicCommand extends ListenerAdapter{
 
     private final AudioPlayerManager playerManager;
     private final Map<String, GuildMusicManager> musicManagers;
+    private static List<Member> followers = new ArrayList<Member>();
 
     public musicCommand(){
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
@@ -112,6 +104,11 @@ public class musicCommand extends ListenerAdapter{
 
                     try{
                         server.getAudioManager().openAudioConnection(voice);
+                        for (Member e : followers) {
+                            if (e.getVoiceState().getChannel() != null) {
+                                server.getController().moveVoiceMember(e, voice).queue();
+                            }
+                        }
                     }catch (PermissionException e){
                         if(e.getPermission() == Permission.VOICE_CONNECT){
                             orgin_chan.sendMessage("Tilda doesn't have permissions to connect to: " + voice.getName()).queue();
@@ -136,7 +133,7 @@ public class musicCommand extends ListenerAdapter{
                     orgin_chan.sendMessage("Player is already playing").queue();
                 }
                 else if(scheduler.queue.isEmpty()){
-                    loadAndPlay(mng, orgin_chan, "https://www.youtube.com/watch?v=5I9uCPO1r0o",false);
+                    loadAndPlay(mng, orgin_chan, "https://www.youtube.com/playlist?list=PLEgNqLmZpLuI9ajUy3Hg97NrpssG4repu",false);
                     orgin_chan.sendMessage("Player queue was empty\nPlaying default song").queue();
                 }
             }
@@ -146,7 +143,10 @@ public class musicCommand extends ListenerAdapter{
             }
         }
 
-        else if(command[0].equals("~pplay") && command.length == 2){
+        else if(command[0].equals("~pplay")){
+            if(command.length == 1){
+                loadAndPlay(mng, orgin_chan, "https://www.youtube.com/playlist?list=PLEgNqLmZpLuI9ajUy3Hg97NrpssG4repu",true);
+            }
             loadAndPlay(mng, orgin_chan, command[1],true);
         }
 
@@ -272,6 +272,31 @@ public class musicCommand extends ListenerAdapter{
                 scheduler.shuffle();
                 orgin_chan.sendMessage("Queue shuffled").queue();
             }
+        }
+
+        else if (command[0].equals("~follow")){
+            Member user = event.getMember();
+            VoiceChannel botloc = server.getAudioManager().getConnectedChannel();
+            if(user.getVoiceState().getChannel() != botloc){
+                try {
+                    if (user.getVoiceState().getChannel() != null) {
+                        server.getController().moveVoiceMember(user, botloc).queue();
+                    }
+                } catch (NullPointerException ignore){}
+            }
+            if(!followers.contains(user)) {
+                followers.add(user);
+                orgin_chan.sendMessage("**" + user.getEffectiveName() + "** is now following Tilda").queue();
+            }
+            else {
+                orgin_chan.sendMessage("**" + user.getEffectiveName() + "** is already following Tilda").queue();
+            }
+        }
+
+        else if (command[0].equals("~unfollow")){
+            Member user = event.getMember();
+            followers.remove(user);
+            orgin_chan.sendMessage("**" + user.getEffectiveName() + "** is no longer following Tilda").queue();
         }
 
     }
