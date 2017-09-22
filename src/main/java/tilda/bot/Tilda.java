@@ -16,14 +16,38 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 public class Tilda extends ListenerAdapter{
+
     private static String token = "";
+
     //Edit this to change location where the token is stored
     //Warning!!! If you change the file name, don't forget to add it to the gitignore so you don't add it to github!
     private static String token_path = "./tildaToken.txt";
+
     public static void main(String[] args) throws Exception{
         System.out.println("Starting up Tilda Bot!");
         System.out.println("Retrieving token...");
 
+        findToken();
+
+
+        JDA api = null;
+        try {
+            //check your token file if the token is invalid!
+            //Delete it if you want to reset it
+            api = new JDABuilder(AccountType.BOT)
+                    .setToken(token)
+                    .setStatus(OnlineStatus.ONLINE)
+                    .buildBlocking();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } catch (RateLimitedException e){
+            e.printStackTrace();
+        }
+
+        api.addEventListener(new MessageListener());
+    }
+
+    private static void findToken() throws Exception{
         //getting the token
         File token_file = new File(token_path);
         if(token_file.isFile()){
@@ -53,20 +77,5 @@ public class Tilda extends ListenerAdapter{
             System.out.println("Token File successfully created!");
         }
 
-        JDA api = null;
-        try {
-            //check your token file if the token is invalid!
-            //Delete it if you want to reset it
-            api = new JDABuilder(AccountType.BOT)
-                    .setToken(token)
-                    .setStatus(OnlineStatus.ONLINE)
-                    .buildBlocking();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        } catch (RateLimitedException e){
-            e.printStackTrace();
-        }
-
-        api.addEventListener(new MessageListener());
     }
 }
