@@ -52,31 +52,34 @@ public class Tilda extends ListenerAdapter{
     private static void findToken() throws Exception{
         //getting the token
         File token_file = new File(token_path);
-        if(token_file.isFile()){
-            //reads in the token from the file
-            BufferedReader br = new BufferedReader(new FileReader(token_file));
-            token = br.readLine();
-        }
-        else{
-            //Token File doesn't exist, so it must be created
+        token = System.getenv().get("BOT_TOKEN");
 
-            //Users have to input the token
-            System.out.println("Token file not found!\n");
-            System.out.println("Enter in the Bot Token:");
-            BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
-            token = cin.readLine();
+        if(token == null) {
+            if (token_file.isFile()) {
+                //reads in the token from the file
+                BufferedReader br = new BufferedReader(new FileReader(token_file));
+                token = br.readLine();
+            } else {
+                //Token File doesn't exist, so it must be created
 
-            //Saving the token so user doesn't need to keep re-entering it
-            byte data[] = token.getBytes();
-            Path p = Paths.get(token_path);
+                //Users have to input the token
+                System.out.println("Token file not found!\n");
+                System.out.println("Enter in the Bot Token:");
+                BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
+                token = cin.readLine();
 
-            try (OutputStream out = new BufferedOutputStream(
-                    Files.newOutputStream(p, CREATE_NEW))){
-                out.write(data, 0, data.length);
-            } catch (IOException x){
-                System.err.println(x);
+                //Saving the token so user doesn't need to keep re-entering it
+                byte data[] = token.getBytes();
+                Path p = Paths.get(token_path);
+
+                try (OutputStream out = new BufferedOutputStream(
+                        Files.newOutputStream(p, CREATE_NEW))) {
+                    out.write(data, 0, data.length);
+                } catch (IOException x) {
+                    System.err.println(x);
+                }
+                System.out.println("Token File successfully created!");
             }
-            System.out.println("Token File successfully created!");
         }
 
     }
