@@ -17,6 +17,17 @@ sourceCompatibility = 1.8
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "net.dv8tion:JDA:$jdaVersion"
+    compile 'com.sedmelluq:lavaplayer:1.2.43'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
 jar{
     manifest{
         attributes(
@@ -36,13 +47,3 @@ task fatJar(type: Jar) {
     with jar
 }
 
-repositories {
-    jcenter()
-}
-
-dependencies {
-    compile "net.dv8tion:JDA:$jdaVersion"
-    compile 'com.sedmelluq:lavaplayer:1.2.43'
-}
-
-compileJava.options.encoding = 'UTF-8'
