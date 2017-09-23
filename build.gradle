@@ -17,6 +17,15 @@ sourceCompatibility = 1.8
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
+jar{
+    manifest{
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'tilda.bot.Tilda'
+        )
+    }
+}
+
 task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Version': version
@@ -25,15 +34,6 @@ task fatJar(type: Jar) {
     baseName = project.name + '-withDependencies'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
-}
-
-jar{
-    manifest{
-        attributes(
-            'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-            'Main-Class': 'tilda.bot.Tilda'
-        )
-    }
 }
 
 repositories {
