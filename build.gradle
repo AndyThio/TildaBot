@@ -17,6 +17,8 @@ sourceCompatibility = 1.8
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
+sourceSets.main.java.srcDirs = ['src']
+
 repositories {
     jcenter()
 }
