@@ -1,1 +1,1 @@
-run: java -jar target/TildaBot.jar
+run: java -jar build/libs/TildaBoti-1.0-SNAPSHOT.jar
