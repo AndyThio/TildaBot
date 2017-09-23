@@ -29,15 +29,6 @@ dependencies {
 
 compileJava.options.encoding = 'UTF-8'
 
-jar{
-    manifest{
-        attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'tilda.bot.Tilda'
-        )
-    }
-}
-
 task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Version': version
