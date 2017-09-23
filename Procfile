@@ -1,0 +1,1 @@
+run: java -jar target/TildaBot.jar

@@ -147,7 +147,9 @@ public class musicCommand extends ListenerAdapter{
             if(command.length == 1){
                 loadAndPlay(mng, orgin_chan, "https://www.youtube.com/playlist?list=PLEgNqLmZpLuI9ajUy3Hg97NrpssG4repu",true);
             }
-            loadAndPlay(mng, orgin_chan, command[1],true);
+            else {
+                loadAndPlay(mng, orgin_chan, command[1], true);
+            }
         }
 
         else if(command[0].equals("~skip")){
