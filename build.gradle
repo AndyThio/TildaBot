@@ -27,6 +27,14 @@ task fatJar(type: Jar) {
     with jar
 }
 
+jar{
+    manifest{
+        attributes(
+            'Main-Class': 'tilda.bot.Tilda'
+        )
+    }
+}
+
 repositories {
     jcenter()
 }
