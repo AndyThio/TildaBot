@@ -27,7 +27,13 @@ dependencies {
     compile 'com.sedmelluq:lavaplayer:1.2.43'
 }
 
-compileJava.options.encoding = 'UTF-8'
+
+jar{
+    baseName = project.name
+    manifest{
+        attributes 'Main-Class': 'tilda.bot.Tilda'
+    }
+}
 
 task fatJar(type: Jar) {
     manifest {
@@ -39,3 +45,4 @@ task fatJar(type: Jar) {
     with jar
 }
 
+compileJava.options.encoding = 'UTF-8'
