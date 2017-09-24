@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import tilda.bot.commands.HelpCommand;
 import tilda.bot.music.musicCommand;
 
 import javax.security.auth.login.LoginException;
@@ -47,6 +48,7 @@ public class Tilda extends ListenerAdapter{
 
         api.addEventListener(new MessageListener());
         api.addEventListener(new musicCommand());
+        api.addEventListener(new HelpCommand());
     }
 
     private static void findToken() throws Exception{
