@@ -47,7 +47,7 @@ public class HelpCommand extends Command {
     public void onCommand(MessageReceivedEvent e, String[] args) {
         if(args.length < 2){
             StringBuilder s = new StringBuilder();
-            s.append("__**Commands Supported**__");
+            s.append("__**Commands Supported**__\n");
 
             for(Command c : loaded){
                 String d = c.getDescription();
@@ -56,6 +56,24 @@ public class HelpCommand extends Command {
                 s.append("**").append(c.getAlias().get(0)).append("** - ");
                 s.append(d).append("\n");
             }
+            //Music bot commands... I was too lazy to restructure it
+            s.append("\n__**Music Player Commands**__\n");
+            s.append("**~join** - Joins the channel mentioned\n");
+            s.append("**~leave** - Leaves the voice channel\n");
+            s.append("**~play** - Plays song at url (plays default if no url mentioned)\n");
+            s.append("**~pplay** - Loads and plays playlist at url (plays default if no url mentioned)\n");
+            s.append("**~skip** - Skips current song\n");
+            s.append("**~pause** - Pauses or resumes the player\n");
+            s.append("**~stop** - Stops the player and clears its queue\n");
+            s.append("**~volume** - sets volume to a number 10-100 or default (35) if no number is mentioned\n");
+            s.append("**~restart** - Restarts the current track\n");
+            s.append("**~reset** - Resets the player and clears the queue\n");
+            s.append("**~nowplaying** - State currently playing song\n");
+            s.append("**~list** - List the next 10 songs in queue\n");
+            s.append("**~shuffle** - Shuffles up the queue\n");
+            s.append("**~follow** - Follows the bot around when it changes voice channels\n");
+            s.append("**~unfollow** - Unfollows the bot\n");
+
             sendMessage(e,s.toString());
         }
         else{
@@ -85,7 +103,8 @@ public class HelpCommand extends Command {
                 }
                 return;
             }
-            sendMessage(e, "**" + command + "** does not exist\nUse ~help to list all commands");
+            sendMessage(e, "**" + command + "** does not exist\nUse ~help to list all commands\n"
+                + "__Note:__ Music Player Commands usage help has not been implemented yet");
         }
     }
 

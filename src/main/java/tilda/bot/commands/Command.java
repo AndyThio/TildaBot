@@ -34,8 +34,9 @@ public abstract class Command extends ListenerAdapter {
         return getAlias().contains(getArgs(m)[0]);
     }
 
+    //TODO: fix double space errors
     public String[] getArgs(Message m){
-        return m.getRawContent().split(" ");
+        return m.getRawContent().split(" " );
     }
 
     //just qol change to shorten this call
