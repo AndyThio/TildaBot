@@ -46,3 +46,5 @@ task fatJar(type: Jar) {
 }
 
 compileJava.options.encoding = 'UTF-8'
+
+assemble.dependsOn fatJar;
