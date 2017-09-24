@@ -31,6 +31,8 @@ public class Tilda extends ListenerAdapter{
 
         findToken();
 
+        HelpCommand help = new HelpCommand();
+
 
         JDA api = null;
         try {
@@ -48,7 +50,7 @@ public class Tilda extends ListenerAdapter{
 
         api.addEventListener(new MessageListener());
         api.addEventListener(new musicCommand());
-        api.addEventListener(new HelpCommand());
+        api.addEventListener(help.registerCommand(new HelpCommand()));
     }
 
     private static void findToken() throws Exception{

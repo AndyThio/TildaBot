@@ -1,6 +1,5 @@
 package tilda.bot.commands;
 
-import com.sun.deploy.util.StringUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -90,7 +89,7 @@ public class HelpCommand extends Command {
 
                     String m = "**Name:** " + n + "\n"
                             + "**Description:** " + d + "\n"
-                            + "**Aliases:** `" + StringUtils.join(c.getAlias(), "` || `") + "`\n"
+                            + "**Aliases:** `" + String.join( "` || `", c.getAlias()) + "`\n"
                             + "**Usage:**" + u.get(0);
 
                     sendMessage(e,m);
