@@ -186,7 +186,7 @@ public class musicCommand extends ListenerAdapter{
             }
             else{
                 try{
-                    int newVol = Math.max(10, Math.min(100, Integer.parseInt(command[1])));
+                    int newVol = Math.max(1, Math.min(100, Integer.parseInt(command[1])));
                     int oldVol = player.getVolume();
 
                     player.setVolume(newVol);
