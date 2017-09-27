@@ -56,7 +56,8 @@ public class Tilda extends ListenerAdapter{
         api.addEventListener(help.registerCommand(new HelpCommand()));
         api.addEventListener(help.registerCommand(new InfoCommand()));
 
-        api.addEventListener(help.registerCommand(new RegisterCommand()));
+        //Command Not finished yet
+        //api.addEventListener(help.registerCommand(new RegisterCommand()));
         api.addEventListener(help.registerCommand(new TeamCommand()));
     }
 
