@@ -33,9 +33,5 @@ public class MessageListener extends ListenerAdapter {
                 channel.sendMessage("You have no power here!").queue();
             }
         }
-        else if(content.equals("~info")){
-            channel.sendMessage("Here is the Tilda Docs: https://goo.gl/dtjFUk"+
-                "\nSource Code: https://github.com/AndyThio/TildaBot").queue();
-        }
     }
 }
