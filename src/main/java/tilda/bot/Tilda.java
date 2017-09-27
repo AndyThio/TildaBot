@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import tilda.bot.commands.HelpCommand;
 import tilda.bot.commands.InfoCommand;
 import tilda.bot.commands.league.RegisterCommand;
+import tilda.bot.commands.league.TeamCommand;
 import tilda.bot.music.musicCommand;
 
 import javax.security.auth.login.LoginException;
@@ -56,6 +57,7 @@ public class Tilda extends ListenerAdapter{
         api.addEventListener(help.registerCommand(new InfoCommand()));
 
         api.addEventListener(help.registerCommand(new RegisterCommand()));
+        api.addEventListener(help.registerCommand(new TeamCommand()));
     }
 
     private static void findToken() throws Exception{

@@ -69,7 +69,8 @@ public class TeamCommand extends Command {
                if(members.isEmpty()){
                    //get list of members fro the voice channel
                   VoiceChannel v = e.getGuild().getVoiceChannelsByName(args[i],true).stream().findFirst().orElse(null);
-                  members = v.getMembers();
+                  //making the list modifiable
+                  members = new ArrayList<>(v.getMembers());
                }
                else{
                    sendMessage(e, "Error: No Flag **" + args[i] + "** found");
@@ -85,9 +86,17 @@ public class TeamCommand extends Command {
         teams.add(new ArrayList<>());
         teams.add(new ArrayList<>());
 
+
         Collections.shuffle(members);
+        //offset to account for bots in the channel
+        int offset = 0;
         for(int j = 0; j < members.size(); ++j){
-            teams.get(j%2).add(members.get(j));
+            if(!members.get(j).getUser().isBot()) {
+                teams.get((j + offset) % 2).add(members.get(j));
+            }
+            else{
+                ++offset;
+            }
         }
 
         sendMessage(e,teamsMessage(teams));
@@ -99,7 +108,7 @@ public class TeamCommand extends Command {
             m += mem.getEffectiveName() + "\n";
         }
 
-        m = "__**Team 2**__\n";
+        m += "\n__**Team 2**__\n";
         for(Member mem: teams.get(1)){
             m += mem.getEffectiveName() + "\n";
         }
