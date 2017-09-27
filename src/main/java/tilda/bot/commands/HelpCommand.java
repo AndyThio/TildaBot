@@ -2,15 +2,12 @@ package tilda.bot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class HelpCommand extends Command {
 
-    private static List<Command> loaded = new ArrayList<>();
+    private static TreeMap<String, Command> loaded = new TreeMap<>();
 
     private final String NO_NAME = "No name has been provided for this command.";
     private final String NO_DESCRIPTION = "No description has been provided for this command.";
@@ -54,7 +51,7 @@ public class HelpCommand extends Command {
             StringBuilder s = new StringBuilder();
             s.append("__**Commands Supported**__\n");
 
-            for(Command c : loaded){
+            for(Command c : loaded.values()){
                 String d = c.getDescription();
                 d = (d == null || d.isEmpty()) ? NO_DESCRIPTION : d;
 
@@ -83,7 +80,7 @@ public class HelpCommand extends Command {
         }
         else{
             String command = args[1].charAt(0) == '~' ? args[1] : "~" + args[1];
-            for(Command c : loaded){
+            for(Command c : loaded.values()){
                 if(c.getAlias().contains(command)) {
                     //Getting information and replacing with stuff if the fields are missing
                     String n = c.getName();
@@ -116,7 +113,7 @@ public class HelpCommand extends Command {
     }
 
     public Command registerCommand(Command c){
-        loaded.add(c);
+        loaded.put(c.getAlias().get(0), c);
         return c;
     }
 
