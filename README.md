@@ -5,7 +5,7 @@ Prefix: `~`
 
 Type `~help` for a list of commands
 
-This README was written for Josh (You could have just listened to my explanation :( )
+This README was written for Josh (You could have just listened to my explanation :unamused: )
 
 ## Adding a Command
 Tilda bot has no actual command to create a new command. Instead you must code each command.
