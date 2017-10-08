@@ -53,4 +53,9 @@ public abstract class Command extends ListenerAdapter {
         }
     }
 
+    //Used to specifically send a private message
+    protected void sendWhisper (MessageReceivedEvent e, String message){
+        e.getAuthor().openPrivateChannel().complete().sendMessage(message).queue();
+    }
+
 }

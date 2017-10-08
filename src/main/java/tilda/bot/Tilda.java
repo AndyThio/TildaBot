@@ -53,12 +53,15 @@ public class Tilda extends ListenerAdapter{
 
         api.addEventListener(new MessageListener());
         api.addEventListener(new musicCommand());
+
+
+        //Register commands here!!
         api.addEventListener(help.registerCommand(new HelpCommand()));
         api.addEventListener(help.registerCommand(new InfoCommand()));
+        api.addEventListener(help.registerCommand(new TeamCommand()));
 
         //Command Not finished yet
         //api.addEventListener(help.registerCommand(new RegisterCommand()));
-        api.addEventListener(help.registerCommand(new TeamCommand()));
     }
 
     private static void findToken() throws Exception{
