@@ -89,8 +89,9 @@ public class TeamCommand extends Command {
                         return;
                 }
             }
+            //TODO: Bugfix the fact that "General 2.0" get split into two channels, "General" and "2.0"
             //If there is no '-' flag then it must be a voice channel
-            //Add memebers of the voice channel to a list of members to create  teams from
+            //Add memebrs of the voice channel to a list of members to create  teams from
             else if(!e.getGuild().getVoiceChannelsByName(args[i], true).isEmpty()){
                 //get list of members fro the voice channel
                 VoiceChannel v = e.getGuild().getVoiceChannelsByName(args[i],true).stream().findFirst().orElse(null);
