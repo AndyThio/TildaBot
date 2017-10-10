@@ -49,6 +49,7 @@ public class HelpCommand extends Command {
     public void onCommand(MessageReceivedEvent e, String[] args) {
         if(args.length < 2){
             StringBuilder s = new StringBuilder();
+            s.append("Type `~help [COMMAND]` for detailed infomation about that COMMAND\n\n");
             s.append("__**Commands Supported**__\n");
 
             for(Command c : loaded.values()){
