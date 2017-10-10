@@ -48,7 +48,16 @@ public class InfoCommand extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         //The actions of the command
-        String m = "**Tilda Bot Github:** https://github.com/AndyThio/TildaBot";
+        String m = "**Tilda Version:** ";
+
+        Object vers = getClass().getPackage().getImplementationVersion();
+        if(vers == null){
+            m += "DEVELOPMENT";
+        }
+        else{
+            m += vers;
+        }
+            m += "\n**Tilda Bot Github:** https://github.com/AndyThio/TildaBot";
         sendMessage(e,m);
     }
 
