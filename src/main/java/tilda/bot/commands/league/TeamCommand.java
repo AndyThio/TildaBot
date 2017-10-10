@@ -75,7 +75,7 @@ public class TeamCommand extends Command {
             if (args[i].startsWith("-")){
                 switch(args[i]){
                     case "-m":
-                        //Gets the permissions of the memeber in this server
+                        //Gets the permissions of the member in this server
                         List<Permission> perms = Permission.getPermissions(PermissionUtil.getEffectivePermission(e.getMember()));
                         if(perms.contains(Permission.VOICE_MOVE_OTHERS)){
                             move = true;
