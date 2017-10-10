@@ -1,5 +1,7 @@
 package tilda.bot;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -23,6 +25,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class Tilda extends ListenerAdapter{
 
     private static String token = "";
+    private static  AmazonDynamoDB awsDB;
 
     //Edit this to change location where the token is stored
     //Warning!!! If you change the file name, don't forget to add it to the gitignore so you don't add it to github!
@@ -33,6 +36,7 @@ public class Tilda extends ListenerAdapter{
         System.out.println("Retrieving token...");
 
         findToken();
+        setup();
 
         HelpCommand help = new HelpCommand();
 
@@ -59,9 +63,12 @@ public class Tilda extends ListenerAdapter{
         api.addEventListener(help.registerCommand(new HelpCommand()));
         api.addEventListener(help.registerCommand(new InfoCommand()));
         api.addEventListener(help.registerCommand(new TeamCommand()));
+        api.addEventListener(help.registerCommand(new RegisterCommand(awsDB)));
 
-        //Command Not finished yet
-        //api.addEventListener(help.registerCommand(new RegisterCommand()));
+    }
+
+    private static void setup(){
+        awsDB = AmazonDynamoDBClient.builder().build();
     }
 
     private static void findToken() throws Exception{

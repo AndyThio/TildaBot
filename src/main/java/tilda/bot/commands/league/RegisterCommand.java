@@ -1,16 +1,29 @@
 package tilda.bot.commands.league;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tilda.bot.commands.Command;
 
+
 public class RegisterCommand extends Command {
+    private static AmazonDynamoDB awsDB;
+
+    public RegisterCommand(AmazonDynamoDB db){
+        awsDB = db;
+    }
 
     @Override
     public String getName() {
@@ -44,7 +57,10 @@ public class RegisterCommand extends Command {
          * ~help <command> - List the name, aliases and usage information of a specific command
          * Example: ~help help
         */
-        return null;
+        return Collections.singletonList("`~reg` or `~register`\n"
+            + "**~reg [League IGN]**: Registers your [League IGN] to your Discord Account\n"
+            + "\t__Note__: Only one League IGN can be registered to a Discord Account\n"
+            + "__Exmaple__: ~register FishCells");
     }
 
     @Override
@@ -63,7 +79,34 @@ public class RegisterCommand extends Command {
         Pattern p = Pattern.compile("^[0-9\\p{L} _.]+$");
         Matcher m = p.matcher(args[1]);
         if(m.find()) {
-            sendMessage(e, "Registered summoner name **" + args[1] + "** to **" +e.getAuthor().getName()+"**");
+            //TODO: Look into specific functions to figure if I should reduce table calls
+            DynamoDB db = new DynamoDB(awsDB);
+            Table table = db.getTable("TildaLoL");
+            //Gets the ign from the database and takes the string out of the item
+            Item ignItem = table.getItem(new GetItemSpec().withPrimaryKey("UserID",e.getAuthor().getIdLong())
+                    .withAttributesToGet("ign"));
+
+            String currIGN = new String();
+            if(ignItem != null){
+                currIGN = ignItem.getString("ign");
+            }
+
+            //Placing name into the database. Will replace the name inside the database if one is already loaded.
+            try {
+                table.putItem(new Item().withPrimaryKey("UserID", e.getAuthor().getIdLong()).withString("ign", args[1]));
+            } catch (Exception x) {
+                sendMessage(e, "Unable to add ign: " + args[1] + "\n" + x.getMessage());
+            }
+
+            if(currIGN.isEmpty()) {
+                    sendMessage(e, "Registered summoner name **" + args[1] + "** to **" + e.getAuthor().getName() + "**");
+            }
+
+            else{
+                sendMessage(e, "Changed register summoner name for **" + e.getAuthor().getName()+ "** from **"
+                        + currIGN + "** to **" + args[1] + "**");
+            }
+
         }
         else {
             sendMessage(e, "Error: Invalid summoner name: **" + args[1] + "**");
