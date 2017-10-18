@@ -91,7 +91,7 @@ public class TeamCommand extends Command {
             }
             //TODO: Bugfix the fact that "General 2.0" get split into two channels, "General" and "2.0"
             //If there is no '-' flag then it must be a voice channel
-            //Add memebrs of the voice channel to a list of members to create  teams from
+            //Add members of the voice channel to a list of members to create  teams from
             else if(!e.getGuild().getVoiceChannelsByName(args[i], true).isEmpty()){
                 //get list of members fro the voice channel
                 VoiceChannel v = e.getGuild().getVoiceChannelsByName(args[i],true).stream().findFirst().orElse(null);
@@ -166,7 +166,7 @@ public class TeamCommand extends Command {
         if(teamnum == 0) {
             VoiceChannel v = guild.getVoiceChannelsByName("General", true).get(0);
             for (Member m : teams.get(teamnum)) {
-                gc.moveVoiceMember(m, v);
+                gc.moveVoiceMember(m, v).queue();
             }
             ++teamnum;
         }
@@ -174,7 +174,7 @@ public class TeamCommand extends Command {
         //TODO: Fix if uploaded to another server where this channel doesn't exist
         VoiceChannel v = guild.getVoiceChannelsByName("General 2.0", true).get(0);
         for (Member m : teams.get(teamnum)) {
-            gc.moveVoiceMember(m, v);
+            gc.moveVoiceMember(m, v).queue();
         }
 
     }

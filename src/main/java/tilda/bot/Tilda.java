@@ -12,6 +12,7 @@ import tilda.bot.commands.HelpCommand;
 import tilda.bot.commands.InfoCommand;
 import tilda.bot.commands.league.RegisterCommand;
 import tilda.bot.commands.league.TeamCommand;
+import tilda.bot.commands.moderator.MoveCommand;
 import tilda.bot.music.musicCommand;
 
 import javax.security.auth.login.LoginException;
@@ -63,6 +64,7 @@ public class Tilda extends ListenerAdapter{
         api.addEventListener(help.registerCommand(new HelpCommand()));
         api.addEventListener(help.registerCommand(new InfoCommand()));
         api.addEventListener(help.registerCommand(new TeamCommand()));
+        api.addEventListener(help.registerCommand(new MoveCommand()));
         api.addEventListener(help.registerCommand(new RegisterCommand(awsDB)));
 
     }
