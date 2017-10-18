@@ -19,6 +19,7 @@ group 'andy.thio'
 
 mainClassName = 'tilda.bot.Tilda'
 
+//When updating the version of Tilda, don't forget to update the version in the Procfile
 version '1.1.1'
 def jdaVersion = '3.3.1_286'
 def dynamoVersion = '1.11.210'

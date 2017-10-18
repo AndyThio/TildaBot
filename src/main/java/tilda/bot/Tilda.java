@@ -56,16 +56,20 @@ public class Tilda extends ListenerAdapter{
             e.printStackTrace();
         }
 
-        api.addEventListener(new MessageListener());
         api.addEventListener(new musicCommand());
 
 
         //Register commands here!!
+        //General Commands
         api.addEventListener(help.registerCommand(new HelpCommand()));
         api.addEventListener(help.registerCommand(new InfoCommand()));
+
+        //League Commands
         api.addEventListener(help.registerCommand(new TeamCommand()));
-        api.addEventListener(help.registerCommand(new MoveCommand()));
         api.addEventListener(help.registerCommand(new RegisterCommand(awsDB)));
+
+        //Moderator Commands
+        api.addEventListener(help.registerCommand(new MoveCommand()));
 
     }
 
