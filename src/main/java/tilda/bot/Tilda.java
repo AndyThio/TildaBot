@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import tilda.bot.commands.General.PingCommand;
 import tilda.bot.commands.HelpCommand;
 import tilda.bot.commands.InfoCommand;
 import tilda.bot.commands.league.RegisterCommand;
@@ -63,6 +64,7 @@ public class Tilda extends ListenerAdapter{
         //General Commands
         api.addEventListener(help.registerCommand(new HelpCommand()));
         api.addEventListener(help.registerCommand(new InfoCommand()));
+        api.addEventListener(help.registerCommand(new PingCommand()));
 
         //League Commands
         api.addEventListener(help.registerCommand(new TeamCommand()));
