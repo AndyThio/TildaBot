@@ -13,6 +13,7 @@ import tilda.bot.commands.HelpCommand;
 import tilda.bot.commands.InfoCommand;
 import tilda.bot.commands.league.RegisterCommand;
 import tilda.bot.commands.league.TeamCommand;
+import tilda.bot.commands.moderator.ClearCommand;
 import tilda.bot.commands.moderator.MoveCommand;
 import tilda.bot.music.musicCommand;
 
@@ -72,6 +73,7 @@ public class Tilda extends ListenerAdapter{
 
         //Moderator Commands
         api.addEventListener(help.registerCommand(new MoveCommand()));
+        api.addEventListener(help.registerCommand(new ClearCommand()));
 
     }
 
