@@ -72,7 +72,7 @@ public class musicCommand extends ListenerAdapter{
         if(!message.startsWith("~")) return;
 
         //split the command into two parts so we can use the two parts later
-        String[] command = message.split(" " , 2);
+        String[] command = message.split(" +" , 2);
         Guild server = event.getGuild();
         MessageChannel orgin_chan = event.getChannel();
 
