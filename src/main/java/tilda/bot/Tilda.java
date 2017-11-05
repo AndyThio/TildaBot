@@ -28,6 +28,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class Tilda extends ListenerAdapter{
 
     private static String token = "";
+    private static String riotKey = "";
     private static  AmazonDynamoDB awsDB;
 
     //Edit this to change location where the token is stored
@@ -79,6 +80,14 @@ public class Tilda extends ListenerAdapter{
 
     private static void setup(){
         awsDB = AmazonDynamoDBClient.builder().build();
+
+        //setting up riot api
+        riotKey = System.getenv("RIOT_KEY");
+        if(riotKey == null){
+            System.out.println("RIOT_KEY environment variable does not exist");
+            System.exit(1);
+        }
+
     }
 
     private static void findToken() throws Exception{

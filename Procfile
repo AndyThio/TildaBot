@@ -1,1 +1,1 @@
-run: java $JAVA_OPTS -Dserver.port=$PORT -jar  build/libs/TildaBot-withDependencies-1.1.1.jar
+run: java $JAVA_OPTS -Dserver.port=$PORT -jar  build/libs/TildaBot-withDependencies-1.1.2.jar
