@@ -11,11 +11,13 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import tilda.bot.commands.General.PingCommand;
 import tilda.bot.commands.HelpCommand;
 import tilda.bot.commands.InfoCommand;
+import tilda.bot.commands.league.LevelCommand;
 import tilda.bot.commands.league.RegisterCommand;
 import tilda.bot.commands.league.TeamCommand;
 import tilda.bot.commands.moderator.ClearCommand;
 import tilda.bot.commands.moderator.MoveCommand;
 import tilda.bot.music.musicCommand;
+import tilda.bot.util.APIUtil;
 
 import javax.security.auth.login.LoginException;
 import java.io.*;
@@ -28,7 +30,6 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class Tilda extends ListenerAdapter{
 
     private static String token = "";
-    private static String riotKey = "";
     private static  AmazonDynamoDB awsDB;
 
     //Edit this to change location where the token is stored
@@ -75,19 +76,19 @@ public class Tilda extends ListenerAdapter{
         //Moderator Commands
         api.addEventListener(help.registerCommand(new MoveCommand()));
         api.addEventListener(help.registerCommand(new ClearCommand()));
-
+        api.addEventListener(help.registerCommand(new LevelCommand(awsDB)));
     }
 
     private static void setup(){
         awsDB = AmazonDynamoDBClient.builder().build();
 
         //setting up riot api
-        riotKey = System.getenv("RIOT_KEY");
+        String riotKey = System.getenv("RIOT_KEY");
         if(riotKey == null){
             System.out.println("RIOT_KEY environment variable does not exist");
             System.exit(1);
         }
-
+        APIUtil.setApiKey(riotKey);
     }
 
     private static void findToken() throws Exception{
