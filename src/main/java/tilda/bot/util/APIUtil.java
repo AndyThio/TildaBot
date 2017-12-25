@@ -37,10 +37,8 @@ public class APIUtil {
         if (apiEndpoint.getNumArgs() != args.size()) {
             return null;
         }
-
         String apiUri = apiEndpoint.getUrl() + args.get(0);
         BufferedReader reader;
-        StringBuilder stringBuilder = new StringBuilder();
         try {
             URL url = new URL(apiUri);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -52,15 +50,13 @@ public class APIUtil {
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setDoOutput(true);
-            // read the output from the server
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                stringBuilder.append(line + "\n");
-//            }
-            ObjectMapper mapper = new ObjectMapper();
-            Map<String, Object> map = mapper.readValue(reader, Map.class);
-            return map;
+            int responseCode = connection.getResponseCode();
+            if (responseCode >= 200 && responseCode < 300) {
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                ObjectMapper mapper = new ObjectMapper();
+                Map<String, Object> map = mapper.readValue(reader, Map.class);
+                return map;
+            }
 
         } catch (Exception e1) {
             e1.printStackTrace();

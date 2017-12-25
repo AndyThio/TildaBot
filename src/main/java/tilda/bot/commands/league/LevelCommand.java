@@ -18,9 +18,9 @@ public class LevelCommand extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
         try{
-           List<String> apiArgs = Arrays.asList(args).subList(1, args.length);
+           List<String> apiArgs = args.subList(1, args.size());
            Map<String, Object> response = APIUtil.execute(APIUtil.API_ENDPOINT.SUMMONERID, apiArgs);
            if (response == null || response.isEmpty()) {
                return;

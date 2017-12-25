@@ -45,7 +45,7 @@ public class PingCommand extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
         //The actions of the command
         sendMessage(e,"Pong!");
     }

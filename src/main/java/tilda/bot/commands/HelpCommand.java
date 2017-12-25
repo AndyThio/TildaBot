@@ -2,7 +2,10 @@ package tilda.bot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.TreeMap;
 
 
 public class HelpCommand extends Command {
@@ -46,10 +49,10 @@ public class HelpCommand extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
-        if(args.length < 2){
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
+        if(args.size() < 2){
             StringBuilder s = new StringBuilder();
-            s.append("Type `~help [COMMAND]` for detailed infomation about that COMMAND\n\n");
+            s.append("Type `~help [COMMAND]` for detailed information about that COMMAND\n\n");
             s.append("__**Commands Supported**__\n");
 
             for(Command c : loaded.values()){
@@ -80,7 +83,7 @@ public class HelpCommand extends Command {
             sendMessage(e,s.toString());
         }
         else{
-            String command = args[1].charAt(0) == '~' ? args[1] : "~" + args[1];
+            String command = args.get(1).charAt(0) == '~' ? args.get(1) : "~" + args.get(1);
             for(Command c : loaded.values()){
                 if(c.getAlias().contains(command)) {
                     //Getting information and replacing with stuff if the fields are missing

@@ -65,15 +65,15 @@ public class TeamCommand extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
         //The actions of the command
         List<Member> members = new ArrayList<>();
         boolean move = false;
 
         //parses through the flags and also finds the voice channel that we want
-        for(int i = 1; i < args.length; ++i){
-            if (args[i].startsWith("-")){
-                switch(args[i]){
+        for(int i = 1; i < args.size(); ++i){
+            if (args.get(i).startsWith("-")){
+                switch(args.get(i)){
                     case "-m":
                         //Gets the permissions of the member in this server
                         List<Permission> perms = Permission.getPermissions(PermissionUtil.getEffectivePermission(e.getMember()));
@@ -85,21 +85,21 @@ public class TeamCommand extends Command {
                         }
                         break;
                     default:
-                        sendMessage(e, "Error: No Flag **" + args[i] + "** found");
+                        sendMessage(e, "Error: No Flag **" + args.get(i) + "** found");
                         return;
                 }
             }
             //TODO: Bugfix the fact that "General 2.0" get split into two channels, "General" and "2.0"
             //If there is no '-' flag then it must be a voice channel
             //Add members of the voice channel to a list of members to create  teams from
-            else if(!e.getGuild().getVoiceChannelsByName(args[i], true).isEmpty()){
+            else if(!e.getGuild().getVoiceChannelsByName(args.get(i), true).isEmpty()){
                 //get list of members fro the voice channel
-                VoiceChannel v = e.getGuild().getVoiceChannelsByName(args[i],true).stream().findFirst().orElse(null);
+                VoiceChannel v = e.getGuild().getVoiceChannelsByName(args.get(i),true).stream().findFirst().orElse(null);
                 //Allows for multiple channels to be called
                 members.addAll(v.getMembers());
             }
             else{
-                sendMessage(e, "Error: No Flag **" + args[i] + "** found");
+                sendMessage(e, "Error: No Flag **" + args.get(i) + "** found");
                 return;
             }
         }

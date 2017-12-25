@@ -56,7 +56,7 @@ public class ClearCommand extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
         //The actions of the command
         List<Permission> perms = Permission.getPermissions(PermissionUtil.getEffectivePermission(e.getMember()));
         if(!perms.contains(Permission.MESSAGE_MANAGE)){

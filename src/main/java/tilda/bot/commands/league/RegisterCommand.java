@@ -63,20 +63,12 @@ public class RegisterCommand extends Command {
     }
 
     @Override
-    public String[] getArgs(Message m){
-        String[] ret = m.getRawContent().split(" " ,2);
-        //Case shouldn't be an issue in the command
-        //Don't lower everything as it could affect URLs
-        ret[0] = ret[0].toLowerCase();
-        return ret;
-    }
-
-    @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
         //The actions of the command
         //Regex to check if summoner name is a valid one according to Riot
         Pattern p = Pattern.compile("^[0-9\\p{L} _.]+$");
-        Matcher m = p.matcher(args[1]);
+        String summonerName = args.get(1);
+        Matcher m = p.matcher(summonerName);
         if(m.find()) {
             //TODO: Look into specific functions to figure if I should reduce table calls
             DynamoDB db = new DynamoDB(awsDB);
@@ -92,23 +84,23 @@ public class RegisterCommand extends Command {
 
             //Placing name into the database. Will replace the name inside the database if one is already loaded.
             try {
-                table.putItem(new Item().withPrimaryKey("UserID", e.getAuthor().getIdLong()).withString("ign", args[1]));
+                table.putItem(new Item().withPrimaryKey("UserID", e.getAuthor().getIdLong()).withString("ign", summonerName));
             } catch (Exception x) {
-                sendMessage(e, "Unable to add ign: " + args[1] + "\n" + x.getMessage());
+                sendMessage(e, "Unable to add ign: " + summonerName + "\n" + x.getMessage());
             }
 
             if(currIGN.isEmpty()) {
-                    sendMessage(e, "Registered summoner name **" + args[1] + "** to **" + e.getAuthor().getName() + "**");
+                    sendMessage(e, "Registered summoner name **" + summonerName + "** to **" + e.getAuthor().getName() + "**");
             }
 
             else{
                 sendMessage(e, "Changed register summoner name for **" + e.getAuthor().getName()+ "** from **"
-                        + currIGN + "** to **" + args[1] + "**");
+                        + currIGN + "** to **" + summonerName + "**");
             }
 
         }
         else {
-            sendMessage(e, "Error: Invalid summoner name: **" + args[1] + "**");
+            sendMessage(e, "Error: Invalid summoner name: **" + summonerName + "**");
         }
     }
 
