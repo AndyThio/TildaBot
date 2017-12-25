@@ -46,7 +46,7 @@ public class InfoCommand extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
         //The actions of the command
         String m = "**Tilda Version:** ";
 

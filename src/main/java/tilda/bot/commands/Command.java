@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Command extends ListenerAdapter {
@@ -13,7 +14,7 @@ public abstract class Command extends ListenerAdapter {
     //boolean to control whether or not we respond to other bots
     private boolean allowBotResponse = false;
 
-    public abstract void onCommand(MessageReceivedEvent e, String[] args);
+    public abstract void onCommand(MessageReceivedEvent e, List<String> args);
     public abstract List<String> getAlias();
     public abstract String getDescription();
     public abstract String getName();
@@ -31,15 +32,15 @@ public abstract class Command extends ListenerAdapter {
     }
 
     public boolean containsCommand(Message m){
-        return getAlias().contains(getArgs(m)[0]);
+        return getAlias().contains(getArgs(m).get(0));
     }
 
     //TODO: fix double space errors
-    public String[] getArgs(Message m){
-        String[] ret = m.getRawContent().split(" +" );
+    public List<String> getArgs(Message m){
+        List<String> ret = Arrays.asList(m.getRawContent().split(" +" ));
         //Case shouldn't be an issue in the command
         //Don't lower everything as it could affect URLs
-        ret[0] = ret[0].toLowerCase();
+        ret.set(0, ret.get(0).toLowerCase());
         return ret;
     }
 

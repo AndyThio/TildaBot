@@ -59,31 +59,32 @@ public class MoveCommand extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e, String[] args) {
+    public void onCommand(MessageReceivedEvent e, List<String> args) {
         //The actions of the command
+        int numArgs = args.size();
         List<Permission> perms = Permission.getPermissions(PermissionUtil.getEffectivePermission(e.getMember()));
         if(!perms.contains(Permission.VOICE_MOVE_OTHERS)){
             sendMessage(e, "You do not have the permission to move others");
             return;
         }
-        if(args.length == 1){
+        if(numArgs == 1){
             sendMessage(e,"Please include the DEST and FROM channels");
             return;
         }
-        else if(args.length < 2){
+        else if(numArgs == 2){
             sendMessage(e, "Please include FROM channel(s)");
             return;
         }
         //First channel will be the channel that is the DEST channel
         Guild guild = e.getGuild();
         List<VoiceChannel> channels = new ArrayList<>();
-        for(int i = 1; i < args.length; ++i){
-            List<VoiceChannel> temp = guild.getVoiceChannelsByName(args[i],true);
+        for(int i = 1; i < numArgs; ++i){
+            List<VoiceChannel> temp = guild.getVoiceChannelsByName(args.get(i),true);
             if(!temp.isEmpty()){
                 channels.addAll(temp);
             }
             else{
-                sendMessage(e,"Error: **" + args[i] + "** does not exist as a channel");
+                sendMessage(e,"Error: **" + args.get(i) + "** does not exist as a channel");
                 return;
             }
         }
