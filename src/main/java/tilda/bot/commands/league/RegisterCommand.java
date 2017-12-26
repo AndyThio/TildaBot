@@ -1,12 +1,11 @@
 package tilda.bot.commands.league;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import tilda.bot.commands.Command;
+import tilda.bot.util.AWSUtil;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,15 +13,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tilda.bot.commands.Command;
-
 
 public class RegisterCommand extends Command {
-    private static AmazonDynamoDB awsDB;
-
-    public RegisterCommand(AmazonDynamoDB db){
-        awsDB = db;
-    }
 
     @Override
     public String getName() {
@@ -59,7 +51,7 @@ public class RegisterCommand extends Command {
         return Collections.singletonList("`~reg` or `~register`\n"
             + "**~reg [League IGN]**: Registers your [League IGN] to your Discord Account\n"
             + "\t__Note__: Only one League IGN can be registered to a Discord Account\n"
-            + "__Exmaple__: ~register FishCells");
+            + "__Example__: ~register FishCells");
     }
 
     @Override
@@ -70,11 +62,11 @@ public class RegisterCommand extends Command {
         String summonerName = args.get(1);
         Matcher m = p.matcher(summonerName);
         if(m.find()) {
-            //TODO: Look into specific functions to figure if I should reduce table calls
-            DynamoDB db = new DynamoDB(awsDB);
-            Table table = db.getTable("TildaLoL");
+            //TODO: Look into specific functions to figure if I should reduce table call
+            Table table = AWSUtil.getTable("TildaLoL");
             //Gets the ign from the database and takes the string out of the item
-            Item ignItem = table.getItem(new GetItemSpec().withPrimaryKey("UserID",e.getAuthor().getIdLong())
+            Item ignItem = table.getItem(new GetItemSpec()
+                    .withPrimaryKey("UserID",e.getAuthor().getIdLong())
                     .withAttributesToGet("ign"));
 
             String currIGN = new String();
@@ -84,7 +76,9 @@ public class RegisterCommand extends Command {
 
             //Placing name into the database. Will replace the name inside the database if one is already loaded.
             try {
-                table.putItem(new Item().withPrimaryKey("UserID", e.getAuthor().getIdLong()).withString("ign", summonerName));
+                table.putItem(new Item()
+                        .withPrimaryKey("UserID", e.getAuthor().getIdLong())
+                        .withString("ign", summonerName));
             } catch (Exception x) {
                 sendMessage(e, "Unable to add ign: " + summonerName + "\n" + x.getMessage());
             }

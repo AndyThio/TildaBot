@@ -18,9 +18,15 @@ import tilda.bot.commands.moderator.ClearCommand;
 import tilda.bot.commands.moderator.MoveCommand;
 import tilda.bot.music.musicCommand;
 import tilda.bot.util.APIUtil;
+import tilda.bot.util.AWSUtil;
 
-import javax.security.auth.login.LoginException;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -71,12 +77,12 @@ public class Tilda extends ListenerAdapter{
 
         //League Commands
         api.addEventListener(help.registerCommand(new TeamCommand()));
-        api.addEventListener(help.registerCommand(new RegisterCommand(awsDB)));
+        api.addEventListener(help.registerCommand(new RegisterCommand()));
 
         //Moderator Commands
         api.addEventListener(help.registerCommand(new MoveCommand()));
         api.addEventListener(help.registerCommand(new ClearCommand()));
-        api.addEventListener(help.registerCommand(new LevelCommand(awsDB)));
+        api.addEventListener(help.registerCommand(new LevelCommand()));
     }
 
     private static void setup(){
@@ -89,6 +95,7 @@ public class Tilda extends ListenerAdapter{
             System.exit(1);
         }
         APIUtil.setApiKey(riotKey);
+        AWSUtil.setupDB(awsDB);
     }
 
     private static void findToken() throws Exception{

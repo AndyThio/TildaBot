@@ -1,6 +1,5 @@
 package tilda.bot.commands.league;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import tilda.bot.commands.Command;
 import tilda.bot.util.APIUtil;
@@ -11,11 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class LevelCommand extends Command {
-    private static AmazonDynamoDB awsDB;
-
-    public LevelCommand (AmazonDynamoDB db){
-        awsDB = db;
-    }
 
     @Override
     public void onCommand(MessageReceivedEvent e, List<String> args) {
