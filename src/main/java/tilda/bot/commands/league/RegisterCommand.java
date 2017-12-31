@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import tilda.bot.commands.Command;
 import tilda.bot.util.AWSUtil;
+import tilda.bot.util.DiscordUtil;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -66,7 +67,7 @@ public class RegisterCommand extends Command {
             Table table = AWSUtil.getTable("TildaLoL");
             //Gets the ign from the database and takes the string out of the item
             Item ignItem = table.getItem(new GetItemSpec()
-                    .withPrimaryKey("UserID",e.getAuthor().getIdLong())
+                    .withPrimaryKey("UserID", DiscordUtil.getUserIdFromMessage(e))
                     .withAttributesToGet("ign"));
 
             String currIGN = new String();
@@ -77,7 +78,7 @@ public class RegisterCommand extends Command {
             //Placing name into the database. Will replace the name inside the database if one is already loaded.
             try {
                 table.putItem(new Item()
-                        .withPrimaryKey("UserID", e.getAuthor().getIdLong())
+                        .withPrimaryKey("UserID", DiscordUtil.getUserIdFromMessage(e))
                         .withString("ign", summonerName));
             } catch (Exception x) {
                 sendMessage(e, "Unable to add ign: " + summonerName + "\n" + x.getMessage());
