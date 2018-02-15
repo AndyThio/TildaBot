@@ -20,10 +20,10 @@ group 'andy.thio'
 mainClassName = 'tilda.bot.Tilda'
 
 //When updating the version of Tilda, don't forget to update the version in the Procfile
-version '1.1.4'
-def jdaVersion = '3.3.1_302'
+version '1.1.5'
+def jdaVersion = '3.5.0_338'
 def dynamoVersion = '1.11.210'
-def lavaplayerVersion = '1.2.44'
+def lavaplayerVersion = '1.2.49'
 
 sourceCompatibility = 1.8
 

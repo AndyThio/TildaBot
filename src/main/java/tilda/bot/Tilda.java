@@ -54,9 +54,7 @@ public class Tilda extends ListenerAdapter{
                     .setToken(token)
                     .setStatus(OnlineStatus.ONLINE)
                     .buildBlocking();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        } catch (RateLimitedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
