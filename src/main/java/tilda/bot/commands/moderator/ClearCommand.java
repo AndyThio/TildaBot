@@ -77,7 +77,7 @@ public class ClearCommand extends Command {
 
         //TODO: Parallelize (FINALLY SOMETHING TO TEST ON JAVA PARALLELIZATION)
         for(int i = 1; i < messageList.size(); ++i){
-            if(messageList.get(i).getAuthor().isBot() || (delUser && messageList.get(i).getRawContent().startsWith("~"))){
+            if(messageList.get(i).getAuthor().isBot() || (delUser && messageList.get(i).getContentRaw().startsWith("~"))){
                 if(messageList.get(i).getCreationTime().isAfter(OffsetDateTime.now().minusWeeks(2))){
                     toDelete.add(messageList.get(i));
                 }

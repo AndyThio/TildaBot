@@ -36,7 +36,7 @@ public abstract class Command extends ListenerAdapter {
 
     //TODO: fix double space errors
     public String[] getArgs(Message m){
-        String[] ret = m.getRawContent().split(" +" );
+        String[] ret = m.getContentRaw().split(" +" );
         //Case shouldn't be an issue in the command
         //Don't lower everything as it could affect URLs
         ret[0] = ret[0].toLowerCase();

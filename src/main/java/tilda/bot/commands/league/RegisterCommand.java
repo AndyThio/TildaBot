@@ -64,7 +64,7 @@ public class RegisterCommand extends Command {
 
     @Override
     public String[] getArgs(Message m){
-        String[] ret = m.getRawContent().split(" " ,2);
+        String[] ret = m.getContentRaw().split(" " ,2);
         //Case shouldn't be an issue in the command
         //Don't lower everything as it could affect URLs
         ret[0] = ret[0].toLowerCase();

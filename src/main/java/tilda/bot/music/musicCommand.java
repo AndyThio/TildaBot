@@ -66,7 +66,7 @@ public class musicCommand extends ListenerAdapter{
         //make sure that the message isn't from a bot
         if(event.getAuthor().isBot()) return;
 
-        String message = event.getMessage().getRawContent();
+        String message = event.getMessage().getContentRaw();
 
         //make sure that the message starts with the correct prefix or we can ignore it
         if(!message.startsWith("~")) return;
